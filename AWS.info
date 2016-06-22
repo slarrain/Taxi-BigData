@@ -1,0 +1,54 @@
+
+- Launch the Instance on AWS (EC2)
+- Wait for it to be ready
+- Log with ssh into EC2 instance:
+ssh -i sle-laptop.pem ec2-user@ec2-52-5-17-51.compute-1.amazonaws.com @xxx is the Pubic DNS from the AWS Dashboard instance.
+
+- Copy local files to s3 bucket:
+slarrain@research5:/local/taxi/Santiago$ aws s3 --region=us-west-2 cp clean_taxi_1.csv s3://sle.taxi.clean/clean_taxi_1.csv
+(Need .awsconfig file configured beforehand)
+
+python -m mrjob.tools.emr.create_job_flow --num-ec2-instances=20
+
+- coordinates_rand_15k.txt for Jan at:
+http://m.uploadedit.com/ba3d/1432505369485.txt
+- index_rand_15k.txt for Jan at:
+http://m.uploadedit.com/ba3d/1432505827401.txt
+
+
+Run the MRJOB on EMR:
+python map_reduce1.py -r emr --emr-job-flow-id=j-2PZL1A14Y9MW0 s3://sle.taxi.clean/clean_taxi_1.csv > output_mapreduce_1.txt
+
+- Working on research5:
+python map_reduce1.py -r emr --emr-job-flow-id=j-1510TKT7KHT3P s3://sle.taxi.clean/clean_taxi_1.csv > output_mapreduce_1.txt
+//without region
+
+
+
+j-2ZYY21Q1IYDXR
+
+Finally working:
+python map_reduce1.py -r emr --emr-job-flow-id=j-2ZYY21Q1IYDXR s3://sle.taxi.clean/clean_taxi_1.csv > output_mapreduce_1.txt
+
+j-DMR7TA3GRQXW
+
+===============
+
+j-1CIC9ZX7D8MGV
+
+python map_reduce5.py -r emr --emr-job-flow-id=j-1CIC9ZX7D8MGV s3://sle.taxi.clean/ > output_allyear_3.txt
+
+++++
+
+j-3OWX9PQLX08UN 
+python map_reduce7.py -r emr --emr-job-flow-id=j-3JTRT20XMGW0Q s3://sle.taxi.clean/ > final_output.txt
+
+j-3JTRT20XMGW0Q
+====
+
+j-23FP3I7LLSQRP
+python map_reduce9.py -r emr --emr-job-flow-id=j-23FP3I7LLSQRP --file /local/taxi/Santiago/all_coord.txt --file /local/taxi/Santiago/all_fares.txt --file /local/taxi/Santiago/all_hack_l.txt --file /local/taxi/Santiago/all_time.txt  s3://sle.taxi.clean/clean_taxi_1.csv > final_output.txt
+
+      --file /local/taxi/Santiago/all_coord.txt --file /local/taxi/Santiago/all_fares.txt --file /local/taxi/Santiago/all_hack_l.txt --file /local/taxi/Santiago/all_time.txt  
+
+
